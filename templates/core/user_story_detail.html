@@ -1,16 +1,45 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 	User story |
 {% endblock %}
 {% block content %}
-	<h1>{{ user_story.project.name }} - {{ user_story.description }}</h1>
-	<h2>Tickets</h2>
+	<div id="user_story">
+		<h1>{{ user_story.project.name }} - {{ user_story.description }}</h1>
+		<h2>Tickets</h2>
 
-	{% for ticket in user_story.tickets.all %}
-		<div>
-			{{ ticket.description }}
-			{{ ticket.get_state_display }}
-			{{ ticket.canceled }}
+		<div v-for="ticket in tickets">
+			<span>[[ticket.description]]</span>
+			<span>[[ticket.state]]</span>
+			<span>[[ticket.canceled]]</span>
 		</div>
-	{% endfor %}
+	</div>
+
+{% endblock %}
+{% block scripts %}
+	<script src="{% static 'js/vue.js' %}"></script>
+	<script src="{% static 'js/axios.min.js' %}"></script>
+	<script>
+        let user_story_app = new Vue({
+            el: '#user_story',
+            delimiters: ['[[', ']]'],
+            data() {
+                return {
+                    tickets: []
+                }
+            },
+            mounted() {
+                this.cargarInfo()
+            },
+            methods: {
+                cargarInfo() {
+                    let self = this;
+                    axios.get('/api/tickets?user_story=' +{{ user_story.id }})
+                        .then(function (response) {
+                            self.tickets = response.data
+                        })
+                }
+            },
+        });
+	</script>
 {% endblock %}

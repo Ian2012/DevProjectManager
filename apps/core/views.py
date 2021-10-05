@@ -50,7 +50,8 @@ class UserStoryCreate(generic.CreateView):
     form_class = UserStoryForm
 
     def get_success_url(self):
-        return reverse('core:project_detail', kwargs={'pk': self.kwargs['project_pk']})
+        return reverse('core:user_story_detail', kwargs={'project_pk': self.kwargs['project_pk'],
+                                                         'story_pk': self.object.id})
 
     def get_initial(self):
         initial = super(UserStoryCreate, self).get_initial()

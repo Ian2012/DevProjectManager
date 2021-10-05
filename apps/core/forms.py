@@ -14,6 +14,7 @@ class UserStoryForm(forms.ModelForm):
     class Meta:
         model = UserStory
         fields = ('description', 'project')
+        widgets = {'project': forms.HiddenInput()}
 
     def __init__(self, *args, **kwargs):
         super(UserStoryForm, self).__init__(*args, **kwargs)

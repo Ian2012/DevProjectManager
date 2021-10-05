@@ -1,0 +1,33 @@
+body {
+    box-sizing: border-box;
+    width: 70%;
+    margin: 0 auto;
+    font-size: 1.125rem;
+}
+
+nav ul {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1rem 0;
+    padding: 0;
+
+}
+
+nav li {
+    list-style: none;
+    margin-left: 1rem;
+}
+
+nav a {
+    font-size: 1.125rem;
+}
+
+.talla:hover {
+    background: black;
+    color: white;
+}
+
+.highlight {
+    background: black;
+    color: white;
+}

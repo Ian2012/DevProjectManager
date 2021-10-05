@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}
+	Project |
+{% endblock %}
+{% block content %}
+	<h1>{{ project.name }}</h1>
+	<span>Company: {{ project.company.name }}</span>
+	<h2>Project user stories</h2>
+	{% for user_story in project.stories.all %}
+		<ul>
+			{% comment %}
+			<li><a href="{% url 'core:project_detail' project.id %}">{{ project.name }}</a></li>
+			{% endcomment %}
+			<li>{{ forloop.counter }} - {{ user_story.description }}</li>
+		</ul>
+	{% endfor %}
+{% endblock %}

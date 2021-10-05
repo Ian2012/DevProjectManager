@@ -26,3 +26,11 @@ class Signup(generic.CreateView):
     template_name = 'core/signup.html'
     success_url = '/'
     form_class = UserRegistrationForm
+
+
+class ProjectDetail(generic.DetailView):
+    template_name = 'core/project_detail.html'
+    context_object_name = 'project'
+
+    def get_object(self, queryset=None):
+        return Project.objects.get(id=self.kwargs['pk'])

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -34,6 +35,12 @@
 
 		<!--A block for the content-->
 		{% block content %}{% endblock %}
+		<script src="{% static 'js/vue.js' %}"></script>
+		<script src="{% static 'js/axios.min.js' %}"></script>
+		<script>
+            axios.defaults.xsrfHeaderName = "X-CSRFToken"
+            axios.defaults.xsrfCookieName = "csrftoken"
+		</script>
 		<!--A block for scripts-->
 		{% block scripts %}{% endblock %}
 	</body>

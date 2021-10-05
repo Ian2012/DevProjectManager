@@ -7,11 +7,17 @@
 	<div id="user_story">
 		<h1>{{ user_story.project.name }} - {{ user_story.description }}</h1>
 		<h2>Tickets</h2>
-
+		<button>Add new ticket</button>
 		<div v-for="ticket in tickets">
-			<span>[[ticket.description]]</span>
-			<span>[[ticket.state]]</span>
-			<span>[[ticket.canceled]]</span>
+			<span>Description: [[ticket.description]]</span>
+			<span>State: [[ticket.state_display]]</span>
+			<label>
+				<select @change="onChange($event, ticket)" v-model="ticket.state">
+					<option value="1">Active</option>
+					<option value="2">In process</option>
+					<option value="3">Finished</option>
+				</select>
+			</label>
 			<div v-for="comment in ticket.comments">
 
 			</div>
@@ -20,8 +26,6 @@
 
 {% endblock %}
 {% block scripts %}
-	<script src="{% static 'js/vue.js' %}"></script>
-	<script src="{% static 'js/axios.min.js' %}"></script>
 	<script>
         let user_story_app = new Vue({
             el: '#user_story',
@@ -29,7 +33,8 @@
             data() {
                 return {
                     tickets: [],
-                    ticket_states: ['Active', 'In process', 'Finished']
+                    ticket_states: ['Active', 'In process', 'Finished'],
+                    selected: ''
                 }
             },
             mounted() {
@@ -41,6 +46,15 @@
                     axios.get('/api/tickets?user_story=' +{{ user_story.id }})
                         .then(function (response) {
                             self.tickets = response.data
+                        })
+                },
+                onChange(event, ticket) {
+                    axios.patch('/api/ticket/' + ticket.id,
+                        {
+                            state: event.target.value,
+                        })
+                        .then(function (response) {
+                            console.log(response)
                         })
                 }
             },

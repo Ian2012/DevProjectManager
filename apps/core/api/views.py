@@ -9,3 +9,8 @@ class TicketListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Ticket.objects.filter(user_story_id=self.request.query_params['user_story'])
+
+
+class TicketRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = TicketSerializer
+    queryset = Ticket.objects.all()

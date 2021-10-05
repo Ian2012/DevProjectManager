@@ -13,7 +13,6 @@ urlpatterns = [
     # Projects
     path('project/<int:pk>', ProjectDetail.as_view(), name='project_detail'),
     # User story
-    path('project/<int:project_pk>/user_story/<int:story_pk>', UserStoryDetail.as_view(), name='user_story_detail'),
     path('project/<int:project_pk>/user_story/create', UserStoryCreate.as_view(), name='user_story_add'),
-
+    path('project/<int:project_pk>/user_story/<int:story_pk>', UserStoryDetail.as_view(), name='user_story_detail'),
 ]

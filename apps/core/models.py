@@ -95,6 +95,9 @@ class Ticket(models.Model):
     def __str__(self):
         return self.description
 
+    class Meta:
+        ordering = ['state']
+
 
 class TicketComment(models.Model):
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='comments', null=True)

@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views import generic
 
-from apps.core.forms import UserRegistrationForm, UserStoryForm
+from apps.core.forms import TicketForm, UserRegistrationForm, UserStoryForm
 from apps.core.models import Project, UserStory
 
 
@@ -37,12 +37,27 @@ class ProjectDetail(generic.DetailView):
         return Project.objects.get(id=self.kwargs['pk'])
 
 
-class UserStoryDetail(generic.DetailView):
+class UserStoryDetail(generic.FormView, generic.DetailView):
     template_name = 'core/user_story_detail.html'
     context_object_name = 'user_story'
+    form_class = TicketForm
+
+    def form_valid(self, form):
+        form.save()
+        return super(UserStoryDetail, self).form_valid(form)
 
     def get_object(self, queryset=None):
         return UserStory.objects.get(id=self.kwargs['story_pk'], project=self.kwargs['project_pk'])
+
+    def get_initial(self):
+        initial = super(UserStoryDetail, self).get_initial()
+        initial = initial.copy()
+        initial['user_story'] = self.kwargs['story_pk']
+        return initial
+
+    def get_success_url(self):
+        return reverse('core:user_story_detail', kwargs={'project_pk': self.kwargs['project_pk'],
+                                                         'story_pk': self.kwargs['story_pk']})
 
 
 class UserStoryCreate(generic.CreateView):

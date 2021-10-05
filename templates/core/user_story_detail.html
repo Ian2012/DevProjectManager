@@ -12,6 +12,9 @@
 			<span>[[ticket.description]]</span>
 			<span>[[ticket.state]]</span>
 			<span>[[ticket.canceled]]</span>
+			<div v-for="comment in ticket.comments">
+
+			</div>
 		</div>
 	</div>
 
@@ -25,7 +28,8 @@
             delimiters: ['[[', ']]'],
             data() {
                 return {
-                    tickets: []
+                    tickets: [],
+                    ticket_states: ['Active', 'In process', 'Finished']
                 }
             },
             mounted() {

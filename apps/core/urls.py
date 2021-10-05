@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import Home, Login, Logout, ProjectDetail, Signup
+from .views import Home, Login, Logout, ProjectDetail, Signup, UserStoryDetail
 
 app_name = 'core'
 
@@ -12,4 +12,6 @@ urlpatterns = [
     path('logout', Logout.as_view(), name='logout'),
     # Projects
     path('project/<int:pk>', ProjectDetail.as_view(), name='project_detail'),
+    path('project/<int:project_pk>/user_story/<int:story_pk>', UserStoryDetail.as_view(), name='user_story_detail'),
+
 ]

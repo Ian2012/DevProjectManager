@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+	User story |
+{% endblock %}
+{% block content %}
+	<h1>{{ user_story.project.name }} - {{ user_story.description }}</h1>
+	<h2>Tickets</h2>
+
+	{% for ticket in user_story.tickets.all %}
+		<div>
+			{{ ticket.description }}
+			{{ ticket.get_state_display }}
+			{{ ticket.canceled }}
+		</div>
+	{% endfor %}
+{% endblock %}

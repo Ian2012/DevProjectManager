@@ -87,7 +87,7 @@ class Ticket(models.Model):
         IN_PROCCES = 2
         FINISHED = 3
 
-    user_story = models.ForeignKey(UserStory, on_delete=models.CASCADE)
+    user_story = models.ForeignKey(UserStory, on_delete=models.CASCADE, related_name='tickets')
     description = models.CharField(max_length=64)
     state = models.IntegerField(choices=STATE.choices, default=STATE.ACTIVE, blank=True)
     canceled = models.BooleanField(default=False, blank=True)

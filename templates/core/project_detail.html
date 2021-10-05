@@ -8,10 +8,9 @@
 	<h2>Project user stories</h2>
 	{% for user_story in project.stories.all %}
 		<ul>
-			{% comment %}
-			<li><a href="{% url 'core:project_detail' project.id %}">{{ project.name }}</a></li>
-			{% endcomment %}
-			<li>{{ forloop.counter }} - {{ user_story.description }}</li>
+
+			<li><a href="{% url 'core:user_story_detail' project.id user_story.id %}">{{ forloop.counter }} - {{ user_story.description }}</a></li>
+
 		</ul>
 	{% endfor %}
 {% endblock %}

@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 from apps.core.forms import UserRegistrationForm
-from apps.core.models import Project
+from apps.core.models import Project, UserStory
 
 
 class Home(LoginRequiredMixin, generic.ListView):
@@ -34,3 +34,11 @@ class ProjectDetail(generic.DetailView):
 
     def get_object(self, queryset=None):
         return Project.objects.get(id=self.kwargs['pk'])
+
+
+class UserStoryDetail(generic.DetailView):
+    template_name = 'core/user_story_detail.html'
+    context_object_name = 'user_story'
+
+    def get_object(self, queryset=None):
+        return UserStory.objects.get(id=self.kwargs['story_pk'])

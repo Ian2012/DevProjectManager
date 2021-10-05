@@ -30,6 +30,9 @@ class Company(models.Model):
     direction = models.CharField(max_length=64)
     email = models.EmailField()
 
+    def __str__(self):
+        return self.name
+
 
 class User(AbstractBaseUser):
     email = models.EmailField(max_length=60, unique=True)
@@ -64,12 +67,18 @@ class User(AbstractBaseUser):
 
 class Project(models.Model):
     name = models.CharField(max_length=32)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, related_name='projects')
+
+    def __str__(self):
+        return self.name
 
 
 class UserStory(models.Model):
-    user = models.ForeignKey(User, related_name='messages', on_delete=models.CASCADE)
     description = models.CharField(max_length=32)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='stories')
+
+    def __str__(self):
+        return f"{self.description} - {self.project.name}"
 
 
 class Ticket(models.Model):
@@ -79,8 +88,12 @@ class Ticket(models.Model):
         FINISHED = 3
 
     user_story = models.ForeignKey(UserStory, on_delete=models.CASCADE)
+    description = models.CharField(max_length=64)
     state = models.IntegerField(choices=STATE.choices, default=STATE.ACTIVE, blank=True)
     canceled = models.BooleanField(default=False, blank=True)
+
+    def __str__(self):
+        return self.description
 
 
 class TicketComment(models.Model):

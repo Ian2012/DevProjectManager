@@ -6,7 +6,7 @@ app_name = 'core'
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
-    path('login/', Login.as_view(), name='login'),
-    path('signup/', Signup.as_view(), name='signup'),
-    path('logout/', Logout.as_view(), name='logout'),
+    path('login', Login.as_view(), name='login'),
+    path('signup', Signup.as_view(), name='signup'),
+    path('logout', Logout.as_view(), name='logout'),
 ]

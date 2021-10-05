@@ -7,8 +7,17 @@
 	<div id="user_story">
 		<h1>{{ user_story.project.name }} - {{ user_story.description }}</h1>
 		<h2>Tickets</h2>
+		<ul>
+			<li>Click on the description to edit</li>
+			<li>Press enter to confirm</li>
+		</ul>
 		<div v-for="ticket in tickets">
-			<span>Description: [[ticket.description]]</span>
+			<label>Description:
+				<input v-show="ticket.edit == true" v-model="ticket.description"
+
+					   @keyup.enter="updateTicket(ticket)">
+				<label v-show="ticket.edit == false" @click="ticket.edit = true"> [[ticket.description]] </label>
+			</label>
 			<label>
 				<select @change="onChange($event, ticket)" v-model="ticket.state">
 					<option value="1">Active</option>
@@ -41,7 +50,8 @@
                 return {
                     tickets: [],
                     ticket_states: ['Active', 'In process', 'Finished'],
-                    selected: ''
+                    selected: '',
+                    edited: null,
                 }
             },
             mounted() {
@@ -63,7 +73,17 @@
                         .then(function (response) {
                             console.log(response)
                         })
-                }
+                },
+                updateTicket(ticket) {
+                    ticket.edit = false
+                    axios.patch('/api/ticket/' + ticket.id,
+                        {
+                            description: ticket.description,
+                        })
+                        .then(function (response) {
+                            console.log(response)
+                        })
+                },
             },
         });
 	</script>

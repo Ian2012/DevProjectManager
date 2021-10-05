@@ -12,6 +12,7 @@ class TicketCommentSerializer(serializers.ModelSerializer):
 class TicketSerializer(serializers.ModelSerializer):
     state_display = serializers.CharField(source='get_state_display', read_only=True)
     comments = TicketCommentSerializer(many=True, read_only=True)
+    edit = serializers.BooleanField(default=False)
 
     class Meta:
         model = Ticket

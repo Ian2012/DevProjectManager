@@ -6,11 +6,26 @@
 	<h1>{{ project.name }}</h1>
 	<span>Company: {{ project.company.name }}</span>
 	<h2>Project user stories</h2>
-	{% for user_story in project.stories.all %}
-		<ul>
+	<a href="{% url 'core:user_story_add' project.id %}">Add user story</a>
+	<table>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Story</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user_story in project.stories.all %}
+				<tr>
+					<td>{{ forloop.counter }}</td>
+					<td><a href="{% url 'core:user_story_detail' project.id user_story.id %}">{{ user_story.description }}</a></td>
+					<td>
+						<button>Delete</button>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-			<li><a href="{% url 'core:user_story_detail' project.id user_story.id %}">{{ forloop.counter }} - {{ user_story.description }}</a></li>
-
-		</ul>
-	{% endfor %}
 {% endblock %}

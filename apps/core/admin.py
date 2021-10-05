@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.core.models import Company, Project, Ticket, TicketComment, User
+from .models import Company, Project, Ticket, TicketComment, User
 
 
 class TicketCommentInline(admin.TabularInline):

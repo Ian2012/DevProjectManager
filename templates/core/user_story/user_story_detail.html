@@ -28,7 +28,17 @@
 				</button>
 			</div>
 		</form>
-		<div v-if="tickets.length===0">No tickets</div>
+		<div v-if="tickets.length===0">
+			<section class="text-gray-600 my-4 body-font">
+				<div class="container mx-auto flex flex-col">
+					<div class="text-center lg:w-2/3 w-full">
+						<h1 class="flex justify-between title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+							<label> <strong>No tickets</strong></label>
+						</h1>
+					</div>
+				</div>
+			</section>
+		</div>
 		<div v-for="ticket in tickets">
 			<section class="text-gray-600 my-4 body-font">
 				<div class="container mx-auto flex flex-col">
@@ -67,11 +77,9 @@
 						<div class="m-3 md:w-1/1 w-full">
 							<div class="h-full bg-gray-100 rounded">
 								<a class="inline-flex items-center">
-									<span class="title-font font-medium text-gray-900">[[user.email]]:
-									</span>
-									<p class="leading-relaxed"></p>
+									<span class="title-font font-medium text-gray-900">[[user.email]] :</span>
 									<input v-show="ticket.comment == true" v-model="new_comment" @keyup.enter="sendComment(ticket)">
-									<button v-show="ticket.comment == false" @click="ticket.comment = true"> Comment</button>
+									<button v-show="ticket.comment == false" @click="ticket.comment = true">comment...</button>
 								</a>
 							</div>
 						</div>

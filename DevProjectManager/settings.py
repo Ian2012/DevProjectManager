@@ -14,6 +14,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'apps.core',
+
+    "crispy_forms",
+    "crispy_tailwind",
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,3 +78,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"

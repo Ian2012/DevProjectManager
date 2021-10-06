@@ -5,47 +5,79 @@
 {% endblock %}
 {% block content %}
 	<div id="user_story">
-		<h1>{{ user_story.project.name }} - {{ user_story.description }}</h1>
-		<h2>Tickets</h2>
-		<ul>
-			<li>Click on the description to edit</li>
-			<li>Press enter to confirm</li>
-		</ul>
-		<div>
-			<form method="post">
-				{% csrf_token %}
-				{{ form.as_p }}
-				{{ form.errors }}
-				<button type="submit">Create</button>
-			</form>
+		<div class="mx-auto w-full flex items-center">
+			<h1 class="text-center w-full  title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{{ user_story.project.name }} - {{ user_story.description }}</h1>
 		</div>
+		<div class="mx-auto lg:w-4/5 w-full bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+			<p class="font-bold">Message</p>
+			<p class="text-sm">Double click on the description to edit</p>
+			<p class="text-sm">Press enter to confirm</p>
+		</div>
+		<form method="post" class="mx-auto lg:w-4/5 w-full">
+			<div class="flex items-center content-center border-b border-teal-500 py-2">
+				{% csrf_token %}
+				{% for field in form.hidden_fields %}
+					{{ field }}
+				{% endfor %}
+				{% for field in form.visible_fields %}
+					<label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="{{ field.auto_id }}">{{ field.label }}</label>
+					{{ field }}
+				{% endfor %}
+				<button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-black py-1 px-2 rounded" type="submit">
+					Add ticket
+				</button>
+			</div>
+		</form>
 		<div v-if="tickets.length===0">No tickets</div>
 		<div v-for="ticket in tickets">
-			<label><strong>Description:</strong>
-				<input v-show="ticket.edit == true" v-model="ticket.description" @keyup.enter="updateTicket(ticket)">
-				<label v-show="ticket.edit == false" @click="ticket.edit = true"> <strong>[[ticket.description]]</strong></label>
-			</label>
-			<label>
-				<select @change="onChange($event, ticket)" v-model="ticket.state">
-					<option value="1">Active</option>
-					<option value="2">In process</option>
-					<option value="3">Finished</option>
-				</select>
-			</label>
-			<div>
-				<ul>
-					<li v-if="ticket.comments.length>0" v-for="comment in ticket.comments">
-						<div>
-							[[comment.owner.email]]: [[comment.message]]
+			<section class="text-gray-600 my-4 body-font">
+				<div class="container mx-auto flex flex-col">
+					<div class="text-center lg:w-2/3 w-full">
+						<h1 class="flex justify-between title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+							<input v-show="ticket.edit == true" v-model="ticket.description" @keyup.enter="updateTicket(ticket)">
+							<label v-show="ticket.edit == false" @click="ticket.edit = true"> <strong>[[ticket.description]]</strong></label>
+							<label>
+								<select @change="onChange($event, ticket)" v-model="ticket.state" class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">
+									<option value="1">Active</option>
+									<option value="2">In process</option>
+									<option value="3">Finished</option>
+								</select>
+							</label>
+						</h1>
+					</div>
+				</div>
+			</section>
+			<section v-if="ticket.comments.length>0" v-for="comment in ticket.comments" class="text-gray-600 body-font">
+				<div class="container mx-auto">
+					<div class="flex flex-wrap -m-4">
+						<div class="m-3 md:w-1/1 w-full">
+							<div class="h-full bg-gray-100 rounded">
+								<a class="inline-flex items-center">
+									<span class="title-font font-medium text-gray-900">[[comment.owner.email]]:</span>
+									<p class="leading-relaxed">[[comment.message]]</p>
+								</a>
+							</div>
 						</div>
-					</li>
-					<li>
-						[[user.email]]:
-						<input v-show="ticket.comment == true" v-model="new_comment" @keyup.enter="sendComment(ticket)">
-						<button v-show="ticket.comment == false" @click="ticket.comment = true"> Comment</button>
-					</li>
-				</ul>
-			</div>
+					</div>
+				</div>
+			</section>
+			<section class="text-gray-600 body-font">
+				<div class="container mx-auto">
+					<div class="flex flex-wrap -m-4">
+						<div class="m-3 md:w-1/1 w-full">
+							<div class="h-full bg-gray-100 rounded">
+								<a class="inline-flex items-center">
+									<span class="title-font font-medium text-gray-900">[[user.email]]:
+									</span>
+									<p class="leading-relaxed"></p>
+									<input v-show="ticket.comment == true" v-model="new_comment" @keyup.enter="sendComment(ticket)">
+									<button v-show="ticket.comment == false" @click="ticket.comment = true"> Comment</button>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 
 		</div>
 	</div>

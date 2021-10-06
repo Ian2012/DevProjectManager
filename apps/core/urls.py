@@ -9,7 +9,7 @@ urlpatterns = [
     # Auth
     path('login', Login.as_view(), name='login'),
     path('signup', Signup.as_view(), name='signup'),
-    path('logout', Logout.as_view(), name='logout'),
+    path('logout/', Logout.as_view(), name='logout'),
     # Projects
     path('project/<int:pk>', ProjectDetail.as_view(), name='project_detail'),
     # User story

@@ -30,3 +30,4 @@ class TicketForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TicketForm, self).__init__(*args, **kwargs)
         self.fields['user_story'].queryset = UserStory.objects.filter(id=kwargs['initial']['user_story'])
+        self.fields['description'].widget.attrs['class'] = 'bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500'

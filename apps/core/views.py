@@ -1,6 +1,6 @@
 from django.contrib.auth import views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 from apps.core.forms import TicketForm, UserRegistrationForm, UserStoryForm
@@ -20,7 +20,7 @@ class Login(views.LoginView):
 
 
 class Logout(LoginRequiredMixin, views.LogoutView):
-    next_page = '/login'
+    next_page = reverse_lazy('core:login')
 
 
 class Signup(generic.CreateView):

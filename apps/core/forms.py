@@ -11,6 +11,8 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class UserStoryForm(forms.ModelForm):
+    ticket = forms.CharField(max_length=64)
+
     class Meta:
         model = UserStory
         fields = ('description', 'project')
@@ -19,6 +21,11 @@ class UserStoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserStoryForm, self).__init__(*args, **kwargs)
         self.fields['project'].queryset = Project.objects.filter(id=kwargs['initial']['project'])
+
+    def save(self, commit=True):
+        story = super(UserStoryForm, self).save()
+        Ticket.objects.create(user_story_id=story.id, description=self.cleaned_data['ticket']).save()
+        return story
 
 
 class TicketForm(forms.ModelForm):

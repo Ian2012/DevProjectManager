@@ -13,9 +13,7 @@
 		</ul>
 		<div v-for="ticket in tickets">
 			<label>Description:
-				<input v-show="ticket.edit == true" v-model="ticket.description"
-
-					   @keyup.enter="updateTicket(ticket)">
+				<input v-show="ticket.edit == true" v-model="ticket.description" @keyup.enter="updateTicket(ticket)">
 				<label v-show="ticket.edit == false" @click="ticket.edit = true"> [[ticket.description]] </label>
 			</label>
 			<label>
@@ -25,11 +23,23 @@
 					<option value="3">Finished</option>
 				</select>
 			</label>
-			<div v-for="comment in ticket.comments">
+			<div>
 
+				<ul>
+					Comments
+					<li v-if="ticket.comments.length>0" v-for="comment in ticket.comments">
+						<div>
+							[[comment.owner.email]]: [[comment.message]]
+						</div>
+					</li>
+					<li>
+						<input v-show="ticket.comment == true" v-model="new_comment" @keyup.enter="sendComment(ticket)">
+						<button v-show="ticket.comment == false" @click="ticket.comment = true">Comment</button>
+					</li>
+				</ul>
 			</div>
-		</div>
 
+		</div>
 		<div class="p-3 form-group">
 			<form method="post">
 				{% csrf_token %}
@@ -50,8 +60,12 @@
                 return {
                     tickets: [],
                     ticket_states: ['Active', 'In process', 'Finished'],
-                    selected: '',
+                    new_comment: '',
                     edited: null,
+                    user: {
+                        id: {{ request.user.id }},
+                        email: '{{ request.user.email }}'
+                    }
                 }
             },
             mounted() {
@@ -84,6 +98,25 @@
                             console.log(response)
                         })
                 },
+                sendComment(ticket) {
+                    ticket.comment = false
+                    let self = this;
+                    axios.post('/api/ticket/' + ticket.id + '/comments',
+                        {
+                            owner: this.user.id,
+                            message: this.new_comment,
+                            ticket: ticket.id
+                        })
+                        .then(function (response) {
+                            response.data.owner = self.user
+                            ticket.comments.push(response.data)
+                            self.new_comment = ""
+                        }).catch(function (error) {
+                            console.log(error)
+                            self.new_comment = ""
+                        }
+                    )
+                }
             },
         });
 	</script>

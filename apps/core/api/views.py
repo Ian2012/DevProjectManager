@@ -1,7 +1,7 @@
 from rest_framework import generics
 
-from apps.core.models import Ticket
-from .serializers import TicketSerializer
+from apps.core.models import Ticket, TicketComment
+from .serializers import TicketCommentSerializer, TicketSerializer
 
 
 class TicketListCreate(generics.ListCreateAPIView):
@@ -14,3 +14,10 @@ class TicketListCreate(generics.ListCreateAPIView):
 class TicketRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TicketSerializer
     queryset = Ticket.objects.all()
+
+
+class CommentListCreate(generics.ListCreateAPIView):
+    serializer_class = TicketCommentSerializer
+
+    def get_queryset(self):
+        return TicketComment.objects.filter(ticket_id=self.kwargs['pk'])

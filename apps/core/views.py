@@ -16,7 +16,7 @@ class Home(LoginRequiredMixin, generic.ListView):
 
 
 class Login(views.LoginView):
-    template_name = 'core/login.html'
+    template_name = 'core/auth/login.html'
 
 
 class Logout(LoginRequiredMixin, views.LogoutView):
@@ -24,13 +24,13 @@ class Logout(LoginRequiredMixin, views.LogoutView):
 
 
 class Signup(generic.CreateView):
-    template_name = 'core/signup.html'
+    template_name = 'core/auth/signup.html'
     success_url = '/'
     form_class = UserRegistrationForm
 
 
 class ProjectDetail(generic.DetailView):
-    template_name = 'core/project_detail.html'
+    template_name = 'core/project/project_detail.html'
     context_object_name = 'project'
 
     def get_object(self, queryset=None):
@@ -38,7 +38,7 @@ class ProjectDetail(generic.DetailView):
 
 
 class UserStoryDetail(generic.FormView, generic.DetailView):
-    template_name = 'core/user_story_detail.html'
+    template_name = 'core/user_story/user_story_detail.html'
     context_object_name = 'user_story'
     form_class = TicketForm
 
@@ -61,7 +61,7 @@ class UserStoryDetail(generic.FormView, generic.DetailView):
 
 
 class UserStoryCreate(generic.CreateView):
-    template_name = 'core/user_story_create.html'
+    template_name = 'core/user_story/user_story_create.html'
     form_class = UserStoryForm
 
     def get_success_url(self):

@@ -11,10 +11,19 @@
 			<li>Click on the description to edit</li>
 			<li>Press enter to confirm</li>
 		</ul>
+		<div>
+			<form method="post">
+				{% csrf_token %}
+				{{ form.as_p }}
+				{{ form.errors }}
+				<button type="submit">Create</button>
+			</form>
+		</div>
+		<div v-if="tickets.length===0">No tickets</div>
 		<div v-for="ticket in tickets">
-			<label>Description:
+			<label><strong>Description:</strong>
 				<input v-show="ticket.edit == true" v-model="ticket.description" @keyup.enter="updateTicket(ticket)">
-				<label v-show="ticket.edit == false" @click="ticket.edit = true"> [[ticket.description]] </label>
+				<label v-show="ticket.edit == false" @click="ticket.edit = true"> <strong>[[ticket.description]]</strong></label>
 			</label>
 			<label>
 				<select @change="onChange($event, ticket)" v-model="ticket.state">
@@ -24,29 +33,20 @@
 				</select>
 			</label>
 			<div>
-
 				<ul>
-					Comments
 					<li v-if="ticket.comments.length>0" v-for="comment in ticket.comments">
 						<div>
 							[[comment.owner.email]]: [[comment.message]]
 						</div>
 					</li>
 					<li>
+						[[user.email]]:
 						<input v-show="ticket.comment == true" v-model="new_comment" @keyup.enter="sendComment(ticket)">
-						<button v-show="ticket.comment == false" @click="ticket.comment = true">Comment</button>
+						<button v-show="ticket.comment == false" @click="ticket.comment = true"> Comment</button>
 					</li>
 				</ul>
 			</div>
 
-		</div>
-		<div class="p-3 form-group">
-			<form method="post">
-				{% csrf_token %}
-				{{ form.as_p }}
-				{{ form.errors }}
-				<button type="submit" class="btn btn-primary">Create</button>
-			</form>
 		</div>
 	</div>
 

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+	Project |
+{% endblock %}
+{% block content %}
+	<h1>{{ project.name }}</h1>
+	<span>Company: {{ project.company.name }}</span>
+	<h2>Project user stories</h2>
+	<a href="{% url 'core:user_story_add' project.id %}">Add user story</a>
+	{% for user_story in project.stories.all %}
+		<div>
+			<a href="{% url 'core:user_story_detail' project.id user_story.id %}">{{ user_story.description }}</a>
+		</div>
+	{% endfor %}
+{% endblock %}

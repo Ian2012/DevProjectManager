@@ -1,0 +1,1 @@
+web: gunicorn DevProjectManager.wsgi --log-file -
